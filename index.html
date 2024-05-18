@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Irl meetup dates</title>
+    <link rel="stylesheet" href="schedule.css">
+</head>
+<body>
+    <form id="dates" action="data.html" method="GET">
+        <section id="monthContainer">
+            <!-- Months will be dynamically generated here -->
+        </section>
+        <section id="buttonHolder">
+            <input id="button" type="submit" id="submit" name="submit" value="submit">
+        </section>    
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var allMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var currentMonthIndex = new Date().getMonth();
+            var currentYear = new Date().getFullYear();
+            //allMonths keeps names of months consistent for css and js
+
+            var months = [];
+            for (var i = 0; i < 5; i++) {
+                months.push(allMonths[(currentMonthIndex + i) % 12]);
+            }
+            //selects the next i months by making each month and index and using % 12 to keep it within the bounds.
+
+            var year = currentYear; 
+            // Dynamically set the year
+    
+            var monthContainer = document.getElementById("monthContainer");
+            //Main container for all months
+                
+            months.forEach(function(month, index) {
+                //Each month will now be constructed
+                var section = document.createElement("section");
+                section.classList.add('month');
+                var h2 = document.createElement("h2");
+                h2.textContent = month;
+                h2.id = month;  
+                section.appendChild(h2);
+                //Month name has been added. The id is to change the colour of it as the checkboxes are filled out
+
+                var firstDateAdded = false;
+                var datesContainer = null;
+                //firstDateAdded is to check if its the first Sat/Sun added to the month to add a css border for visuals
+                //datesContainer is for css to add a container for each Sat/Sun alongside the checkbox
+
+                for (var i = 1; i <= 31; i++) { // Hard limit in case I'm silly
+                    var monthIndex = (currentMonthIndex + index) % 12;
+                    var date = new Date(year, monthIndex, i);
+                    //creates all dates in the month of the year.
+                    if (date.getMonth() !== monthIndex) {
+                        break; // Exit loop if the date exceeds the current month
+                    }
+                    var dayOfWeek = date.toLocaleDateString('en', { weekday: 'short' });
+                    var dayOfMonth = date.getDate();
+                    //Selects the day (mon, tue, ... and the date so 1st,2nd,...)
+                        
+                    var isLastDayOfMonth = (new Date(year, monthIndex, dayOfMonth + 1).getMonth() !== monthIndex);
+                    //For later, checks if the sunday after the saturday leaks over to the next month, if so return true
+
+                    if (dayOfWeek === 'Sat' || dayOfWeek === 'Sun') {
+                        //Selects only the Sat or Sun of the week
+
+                        if (!firstDateAdded) {
+                            //Checks if its the first bunch of the month and adds the class firstDate if so to the div container.
+
+                            datesContainer = document.createElement("div");
+                            datesContainer.classList.add("dates", "firstDate");
+                            firstDateAdded = true;
+                        } else if (dayOfWeek === 'Sat') {
+                            // For each new weekend (starting with Saturday), create a new datesContainer
+
+                            datesContainer = document.createElement("div");
+                            datesContainer.classList.add("dates");
+                        }
+                        var input = document.createElement("input");
+                        input.type = "checkbox";
+                        input.classList.add(month.toLowerCase() + "Checkbox");
+                        input.id = month + dayOfMonth;
+                        input.name = dayOfWeek + " " + dayOfMonth + "th";
+                        input.value = "yes";
+                        //Adds the checkbox with specifically named class' and id for css and js
+        
+                        var label = document.createElement("label");
+                        label.htmlFor = month + dayOfMonth;
+                        label.textContent = dayOfWeek + " - " + dayOfMonth + "th";
+                        //Always need a label :)
+        
+                        datesContainer.appendChild(input);
+                        datesContainer.appendChild(label);
+                        datesContainer.appendChild(document.createElement("br"));
+                        //Joins the checkboxs and labels with the dates under the div dates Container
+
+                        if (dayOfWeek === 'Sun' || isLastDayOfMonth) {
+                            section.appendChild(datesContainer);
+                        }
+                        //adds the dynamically generated datesContainer to the section with class month by checking if its a sunday (or if the month ends on the saturday), 
+                    }
+                }
+                monthContainer.appendChild(section);
+                //Adds the month to the main section with id monthContainer
+
+            });
+        });
+    </script>
+    <script src="monthColour.js"></script>
+</body>
+</html>

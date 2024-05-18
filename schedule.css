@@ -1,0 +1,56 @@
+.dates {
+    /**Positioning**/
+    display:block;
+
+    /**Styling the background**/
+    background-color: aliceblue;
+    width:fit-content;
+    margin:20px;
+    padding:20px;
+    font-size:38px;
+}
+
+input {
+    /**Size of checkmark**/
+    width: 26px;
+    height: 26px;
+}
+
+h2 {
+    /**Style for month**/
+    font-size: 50px;
+    color: maroon;
+    height:100px;
+    width:150px;
+}
+
+section.month {
+    /**lines up the months in a row**/
+    display: inline-flex;
+}
+
+.firstDate {
+    /**Border for month**/
+    border-color: black;
+    border-left-style:solid
+}
+
+div.dates {
+    width: 250px;
+    height: 100px;
+}
+
+#button {
+    font-size: 50px;
+    width:300px;
+    height:120px;
+    background-color: #e7e7e7; 
+    color: black;
+    border: none;
+}
+
+#buttonHolder {
+    display: flex;
+    
+}
+
