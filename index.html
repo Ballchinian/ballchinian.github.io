@@ -81,13 +81,35 @@
                         input.type = "checkbox";
                         input.classList.add(month.toLowerCase() + "Checkbox");
                         input.id = month + dayOfMonth;
-                        input.name = dayOfWeek + " " + dayOfMonth + "th";
+                        
+
+                        input.name = month + dayOfWeek + " " + dayOfMonth + 'th';
                         input.value = "yes";
                         //Adds the checkbox with specifically named class' and id for css and js
         
                         var label = document.createElement("label");
                         label.htmlFor = month + dayOfMonth;
-                        label.textContent = dayOfWeek + " - " + dayOfMonth + "th";
+
+                        let dayOfMonthEnd;
+                        switch (dayOfMonth) {
+                            case 1:
+                            case 21:
+                            case 31:
+                                dayOfMonthEnd = 'st';
+                                break;
+                            case 2:
+                            case 22:
+                                dayOfMonthEnd = 'nd';
+                                break;
+                            case 3:
+                            case 23:
+                                dayOfMonthEnd = 'rd';
+                                break;
+                            default:
+                                dayOfMonthEnd = 'th';
+                        }
+
+                        label.textContent = dayOfWeek + " - " + dayOfMonth + dayOfMonthEnd;
                         //Always need a label :)
         
                         datesContainer.appendChild(input);
