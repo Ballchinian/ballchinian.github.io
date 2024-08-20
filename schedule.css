@@ -5,9 +5,43 @@
     /**Styling the background**/
     background-color: aliceblue;
     width:fit-content;
+    white-space: nowrap;
     margin:20px;
     padding:20px;
+    
     font-size:38px;
+}
+section#name {
+    display:flex;
+    width:auto;
+    height:auto;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+section input#name {
+    /**Input name box**/
+    text-overflow: ellipsis;
+    width: auto;
+    height: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 45px;
+    text-align: center;
+
+    /**Outline turns the border to black when highlighted, border turns it off while ignored**/
+    outline-color:black;
+    border: 6px;
+    background-color: #e7e7e7;
+}
+
+section#name h2 {
+    /**Reverts 'Name here' to black and customises**/
+    position:relative;
+    top:10px;
+    margin-right:180px;
+    color:black;
+    font-size: 60px;
 }
 
 input {
@@ -23,6 +57,8 @@ h2 {
     height:100px;
     width:150px;
 }
+
+
 
 section.month {
     /**lines up the months in a row**/
