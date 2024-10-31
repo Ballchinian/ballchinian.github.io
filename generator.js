@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 input.id = month + dayOfMonth;
                 
 
-                input.name = month + dayOfWeek + " " + dayOfMonth + 'th';
+                input.name = month + " " + dayOfMonth;
                 input.value = "yes";
                 //Adds the checkbox with specifically named class' and id for css and js
 
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     
-    console.log(pairs);
+    //console.log(pairs);
     pairs.forEach(pair => {
     });
     pairs.forEach(pair => {
