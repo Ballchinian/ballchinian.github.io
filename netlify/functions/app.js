@@ -2,9 +2,18 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const path = require('path');
 const dotenv = require('dotenv');
+const serverless = require("serverless-http");
 
 dotenv.config();
 const app = express();
+
+// Define your routes
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+
+// Export wrapped handler
+module.exports.handler = serverless(app);
 
 // Middleware for parsing JSON bodies
 app.use(express.json());
