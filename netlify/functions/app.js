@@ -1,34 +1,14 @@
-const express = require('express');
 const { MongoClient } = require('mongodb');
-const path = require('path');
 const dotenv = require('dotenv');
-const serverless = require("serverless-http");
 
 dotenv.config();
-const app = express();
-
-// Define your routes
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
-
-exports.handler = async (event, context) => {
-  return {
-    statusCode: 200,
-    body: "Hello from Netlify Function!",
-  };
-};
-// Middleware for parsing JSON bodies
-app.use(express.json());
-
-// Serve static files from the "public" directory (e.g., index.html, script.js)
-app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB setup
 const uri = process.env.ATLAS_URI;
 const client = new MongoClient(uri);
 let db;
 
+// Connect to MongoDB
 async function connectToMDB() {
   try {
     await client.connect();
@@ -39,21 +19,35 @@ async function connectToMDB() {
   }
 }
 
+// Invoke the connection to MongoDB when the function is cold-started
 connectToMDB();
 
-// Route to handle form submission from the client
-app.post('/submit-dates', async (req, res) => {
-  const { name, selectedDates } = req.body;
-  try {
-    const collection = db.collection('users');
-    const result = await collection.insertOne({ name, selectedDates });
-    res.status(201).json(result);
-  } catch (e) {
-    res.status(500).json({ error: 'Failed to add user.' });
+exports.handler = async (event, context) => {
+  if (event.httpMethod === "POST") {
+    const { name, selectedDates } = JSON.parse(event.body);
+    
+    try {
+      const collection = db.collection('users');
+      const result = await collection.insertOne({ name, selectedDates });
+      
+      return {
+        statusCode: 201,
+        body: JSON.stringify({ 
+          message: `Received dates for ${name}`, 
+          dates: selectedDates,
+          insertedId: result.insertedId // Optionally return the inserted document ID
+        }),
+      };
+    } catch (e) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to add user.' }),
+      };
+    }
   }
-});
 
-// Start the server
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
-});
+  return {
+    statusCode: 405,
+    body: JSON.stringify({ message: "Method not allowed" }),
+  };
+};

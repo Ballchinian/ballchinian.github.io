@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         };
         
         // Send the data to the backend using POST request
-        fetch('/submit-dates', {
+        fetch('/.netlify/functions/app', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
