@@ -12,9 +12,12 @@ app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
 
-// Export wrapped handler
-module.exports.handler = serverless(app);
-
+exports.handler = async (event, context) => {
+  return {
+    statusCode: 200,
+    body: "Hello from Netlify Function!",
+  };
+};
 // Middleware for parsing JSON bodies
 app.use(express.json());
 
