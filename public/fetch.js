@@ -24,7 +24,10 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({
+                name: 'Your Name', // Replace with the actual name input
+                selectedDates: ['2024-11-01', '2024-11-02'], // Replace with actual dates
+              }),
         })
         .then(response => response.json())
         .then(data => {
