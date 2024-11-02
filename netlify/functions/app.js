@@ -30,18 +30,18 @@ connectToDB();
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Endpoint for form submission
-app.post('/.netlify/functions/app/submit-dates', async (req, res) => {
+app.post('/submit-dates', async (req, res) => {
   const { name, selectedDates } = req.body;
-
   try {
-    const collection = db.collection('users');
-    const result = await collection.insertOne({ name, selectedDates });
-    res.status(201).json({ message: 'Data saved successfully', data: result });
-  } catch (error) {
-    console.error('Error saving data:', error);
-    res.status(500).json({ error: 'Failed to save data' });
+      const collection = db.collection('users');
+      const result = await collection.insertOne({ name, selectedDates });
+      res.status(201).json(result);
+  } catch (e) {
+      console.error('Error saving data:', e); // Log detailed error
+      res.status(500).json({ error: 'Failed to save data', details: e.message });
   }
 });
+
 
 // Netlify function handler
 module.exports.handler = serverless(app);
