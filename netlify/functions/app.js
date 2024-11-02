@@ -31,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Endpoint for form submission
 app.post("/submit-dates", async (req, res) => {
+  console.log('Received a request:', req.body);
   const { name, selectedDates } = req.body;
   try {
     const collection = db.collection("users");
