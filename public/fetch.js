@@ -6,6 +6,7 @@ document.getElementById('dates').addEventListener('submit', async function (even
   
     document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
       selectedDates.push(checkbox.name);
+      
     });
   
     try {
@@ -17,7 +18,9 @@ document.getElementById('dates').addEventListener('submit', async function (even
   
       const data = await response.json();
       console.log('Submission response:', data);
+      console.log($`success {name} and {selectedDates}`)
     } catch (error) {
+      console.log($`error {name} and {selectedDates}`)    
       console.error('Submission error:', error);
     }
   });
