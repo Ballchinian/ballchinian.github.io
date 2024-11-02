@@ -9,7 +9,7 @@ document.getElementById('dates').addEventListener('submit', async function (even
     });
   
     try {
-      const response = await fetch('/.netlify/functions/app/submit-dates', {
+      const response = await fetch("https://ballchinianavalability.netlify.app/.netlify/functions/app/submit-dates", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, selectedDates })
