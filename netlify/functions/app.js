@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 // MongoDB configuration
-const uri = Netlify.env.get(`ATLAS_URI`);  // Ensure your MongoDB URI is in the .env file
+const uri = process.env.ATLAS_URI; // Ensure your MongoDB URI is in the .env file
 const client = new MongoClient(uri);
 let db;
 
