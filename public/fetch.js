@@ -10,7 +10,7 @@ document.getElementById('dates').addEventListener('submit', async function (even
     });
   
     try {
-      const response = await fetch('/.netlify/functions/app', {
+      const response = await fetch('../netlify/functions/app', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, selectedDates })
