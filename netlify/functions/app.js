@@ -1,17 +1,8 @@
-const express = require('express');
 const { MongoClient } = require('mongodb');
-const serverless = require('serverless-http');
-const dotenv = require('dotenv');
-const path = require('path');
 
-dotenv.config();
-
-const app = express();
-app.use(express.json());
-
-// MongoDB configuration
-const uri = process.env.ATLAS_URI; // Ensure your MongoDB URI is in the .env file
+const uri = process.env.ATLAS_URI;
 const client = new MongoClient(uri);
+
 let db;
 
 async function connectToDB() {
@@ -26,24 +17,27 @@ async function connectToDB() {
 
 connectToDB();
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Endpoint for form submission
-app.post("/", async (req, res) => {
-  console.log('Received a request:', req.body);
-  const { name, selectedDates } = req.body;
-  try {
-    const collection = db.collection("users");
-    const result = await collection.insertOne({ name, selectedDates });
-    res.status(201).json(result);
-  } catch (e) {
-    console.error("Error inserting data:", e);  // Add this for detailed logging
-    res.status(500).json({ error: "Failed to save data" });
+exports.handler = async (event, context) => {
+  if (event.httpMethod === 'POST') {
+    try {
+      const { name, selectedDates } = JSON.parse(event.body);
+      const collection = db.collection("users");
+      const result = await collection.insertOne({ name, selectedDates });
+      return {
+        statusCode: 201,
+        body: JSON.stringify(result),
+      };
+    } catch (e) {
+      console.error("Error inserting data:", e);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: "Failed to save data" }),
+      };
+    }
+  } else {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Not Found" }),
+    };
   }
-});
-
-
-
-// Netlify function handler
-module.exports.handler = serverless(app);
+};
