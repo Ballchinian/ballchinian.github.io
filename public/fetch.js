@@ -23,5 +23,7 @@ document.getElementById('dates').addEventListener('submit', async function (even
       console.log(`error ${name} and ${selectedDates}`)    
       console.error('Submission error:', error);
     }
+
+    location.reload();
   });
   
