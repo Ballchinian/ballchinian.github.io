@@ -27,10 +27,10 @@ async function connectToDB() {
 connectToDB();
 
 // Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Endpoint for form submission
-app.post("/submit-dates", async (req, res) => {
+app.post("/", async (req, res) => {
   console.log('Received a request:', req.body);
   const { name, selectedDates } = req.body;
   try {
