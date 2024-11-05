@@ -18,7 +18,7 @@ async function connectToDB() {
   try {
     client = new MongoClient(uri);
     await client.connect();
-    db = client.db('myDatabase');  // Replace 'myDatabase' with your actual database name
+    db = client.db('myDatabase');  
     console.log('Connected to MongoDB');
     return db;
   } catch (error) {
@@ -43,7 +43,7 @@ exports.handler = async (event, context) => {
         body: JSON.stringify(result),
       };
     } catch (e) {
-      console.error("Error inserting data:", e);  // Log the specific error
+      console.error("Error inserting data:", e);  
       return {
         statusCode: 500,
         body: JSON.stringify({ error: e.message || "Failed to save data" }),
