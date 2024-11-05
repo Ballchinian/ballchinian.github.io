@@ -21,14 +21,23 @@ exports.handler = async (event, context) => {
   if (event.httpMethod === 'POST') {
     try {
       const { name, selectedDates } = JSON.parse(event.body);
+      if (!db) {
+        console.error("Database connection is not established.");
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: "Database connection not established" }),
+        };
+      }
+
       const collection = db.collection("users");
       const result = await collection.insertOne({ name, selectedDates });
+
       return {
         statusCode: 201,
         body: JSON.stringify(result),
       };
     } catch (e) {
-      console.error("Error inserting data:", e);
+      console.error("Error inserting data:", e);  // Log the specific error
       return {
         statusCode: 500,
         body: JSON.stringify({ error: "Failed to save data" }),
