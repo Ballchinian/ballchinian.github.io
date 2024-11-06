@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 input.id = month + dayOfMonth;
                 
 
-                input.name = month + " " + dayOfMonth;
+                input.name = month + " " + dayOfMonth + " " + dayOfWeek;
                 input.value = "yes";
                 //Adds the checkbox with specifically named class' and id for css and js
 
